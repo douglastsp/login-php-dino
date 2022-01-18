@@ -15,35 +15,35 @@ $title = "Login";
 </head>
 <body class=" bg-gray-100">
     <main class="flex justify-center items-center h-screen">
-        
+
         <section class="bg-white p-8 w-96 rounded">
             <div class="text-center">
                 <div>
                     <h2 class="text-2xl mb-4"><?= $title; ?></h2>
                 </div>
-                
+
                 <div>
                     <form class="flex flex-col items-center" action="include/validaLogin.php" method="POST">
                         <input
-                            name="email" 
-                            class="p-3 w-full border rounded-full mb-1 focus:outline-cyan-500 text-center" 
+                            name="email"
+                            class="p-3 w-full border rounded-full mb-1 focus:outline-cyan-500 text-center"
                             type="text" placeholder="E-mail">
                         <input
-                            name="pw" 
-                            class="p-3 w-full border rounded-full mb-4 focus:outline-cyan-500 text-center" 
+                            name="pw"
+                            class="p-3 w-full border rounded-full mb-4 focus:outline-cyan-500 text-center"
                             type="password" placeholder="Senha">
-                        <input 
+                        <input
                             id="btn_logar"
                             class="p-2 rounded-full w-1/3 bg-gray-500 duration-1000
-                                transition ease-in-out delay-150 hover:-translate-y-1 
-                                hover:scale-110 duration-300 border 
-                                hover:bg-gray-900 text-white text-base cursor-pointer" 
+                                transition ease-in-out delay-150 hover:-translate-y-1
+                                hover:scale-110 duration-300 border
+                                hover:bg-gray-900 text-white text-base cursor-pointer"
                             type="submit" value="Logar">
                     </form>
                 </div>
             </div>
         </section>
-        
+
     </main>
     <script src="https://cdn.tailwindcss.com"></script>
     <script

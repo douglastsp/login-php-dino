@@ -1,12 +1,12 @@
 <?php
 
-$conection = mysql_connect('db', 'root', 'root');
+$conection = mysqli_connect('login-php-dino.test', 'root', 'root');
 
 if (!$conection) {
-    die('Sem conexao: ' . mysql_error());
+    die('Sem conexao: ' . mysqli_error());
 }
 
-mysql_select_db('revisao', $conection) or die('Sem banco de dados');
+mysqli_select_db($conection, 'revisao') or die('Sem banco de dados');
 session_start();
-
+$_SESSION['con'] = $conection;
 // mysql_close($conection);
