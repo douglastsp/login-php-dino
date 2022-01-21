@@ -6,7 +6,7 @@ if (!$_SESSION['user_id']) {
 }
 
 $listaUsuarios = buscaUsuarios();
-$msg = $_GET['msg'];
+$msg = $_GET['msg'] ?? '';
 
 ?>
 
@@ -37,37 +37,24 @@ $msg = $_GET['msg'];
     <h1 class="text-center text-3xl font-semibold my-4">Gestão de Dinossauros</h1>
 
     <?php if ($msg == "falhou") { ?>
-        <h3 class="text-center">Falha ao Cadastrar novo usuário!</h3>
+        <h3 class="text-center">Deu ruim!</h3>
     <?php } ?>
 
     <?php if ($msg == "sucesso") { ?>
-        <h3 class="text-center">Êxito ao Cadastrar novo usuário!</h3>
+        <h3 class="text-center">Deu bom!</h3>
     <?php } ?>
 
 </header>
 
-<div class="text-center mb-4">
-    <form action="../actions/cadastrarUsuario.php" method="post">
-        <label for="inputNome">Informe seu nome:</label>
-        <br>
-        <input type="text" id="inputNome" name="inputNome" placeholder="Nome" class="text-center border rounded
-         p-1
-        w-2/5" required>
-        <br>
-        <label for="inputEmail">Informe seu email:</label>
-        <br>
-        <input type="email" id="inputEmail" name="inputEmail" placeholder="Email" class="text-center border rounded p-1
-        w-2/5" required>
-        <br>
-        <button class="btn bg-gray-300 rounded-full m-2 p-2" type="submit">Cadastrar</button>
-    </form>
-</div>
-
 <div class="flex flex-col md:flex-row justify-center">
     <table class="w-3/4 border-collapse table-fixed">
         <tr>
+            <th class="border-4">ID</th>
             <th class="border-4">Nome</th>
             <th class="border-4">E-mail</th>
+            <th class="border-4">Status</th>
+            <th class="border-4">Editar</th>
+            <th class="border-4">Excluir</th>
         </tr>
         <?= tabela($listaUsuarios) ?>
     </table>
@@ -80,7 +67,7 @@ $msg = $_GET['msg'];
 <?php
 function buscaUsuarios()
 {
-    $sql = "SELECT * FROM usuarios WHERE id <> 1;";
+    $sql = "SELECT * FROM usuarios WHERE id <> 1 AND status = 1;";
     $result = mysqli_query($_SESSION['con'], $sql);
 
     if (!$result) return false;
@@ -99,9 +86,14 @@ function tabela($arrayUsuarios)
     $html = "";
     if (!$arrayUsuarios) return false;
     foreach($arrayUsuarios as $usuario) {
+        $id = $usuario['id'];
         $html .= "<tr>";
+        $html .= "<td class='border-2 text-center'>{$usuario['id']}</td>";
         $html .= "<td class='border-2'>{$usuario['name']}</td>";
         $html .= "<td class='border-2'>{$usuario['email']}</td>";
+        $html .= "<td class='border-2 text-center'>{$usuario['status']}</td>";
+        $html .= "<td class='border-2 text-center'><a href='formCadastra.php?id={$id}'>Editar</a></td>";
+        $html .= "<td class='border-2 text-center'><a href='../actions/deletarUsuario.php?id={$id}'>Deletar</a></td>";
         $html .= "</tr>";
     }
     return $html;
