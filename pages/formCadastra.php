@@ -7,6 +7,7 @@ if (!$_SESSION['user_id']) {
 
 $idRecebido = $_GET['id'] ?? '';
 $usuarioRecebido = checkUsuario($idRecebido);
+$listaEquipes = buscaEquipes();
 
 ?>
 
@@ -42,17 +43,28 @@ $usuarioRecebido = checkUsuario($idRecebido);
     <div class="text-center mb-4">
         <form action="../actions/cadastrarUsuario.php" method="post">
             <input type="hidden" name="inputId" value="<?= $usuarioRecebido['id'] ?? ''?>">
-            <label for="inputNome">Informe seu nome:</label>
+            <label for="inputNome">Nome do Usuário:</label>
             <br>
             <input type="text" id="inputNome" name="inputNome" placeholder="Nome" class="text-center border rounded
              p-1 w-2/5" required value="<?= $usuarioRecebido['name'] ?? '' ?>">
             <br>
-            <label for="inputEmail">Informe seu email:</label>
+            <label for="inputEmail">E-mail do Usuário:</label>
             <br>
             <input type="email" id="inputEmail" name="inputEmail" placeholder="Email" class="text-center border
             rounded p-1 w-2/5" required value="<?= $usuarioRecebido['email'] ?? '' ?>">
             <br>
-            <button class="btn bg-gray-300 rounded-full m-2 p-2" type="submit">Cadastrar</button>
+            <label for="inputEquipe">Equipe do Usuário:</label>
+            <br>
+            <select name="inputEquipe" id="inputEquipe" class="border-solid border rounded w-1/5 p-0.5
+            text-center">
+                <option>Escolha</option>
+                <?= montaListaEquipes($listaEquipes) ?>
+            </select>
+            <br>
+            <button class="btn bg-green-400 rounded-full m-2 p-2" type="submit">Confirmar</button>
+            <button class="btn bg-gray-400 rounded-full m-2 p-2 justify-center text-bold" type="submit">
+                <a href="home.php"">Voltar</a>
+            </button>
         </form>
     </div>
 
@@ -74,5 +86,31 @@ function checkUsuario($idRecebido)
     if (!$userSql) return false;
     return $userSql;
 }
+
+function buscaEquipes()
+{
+    $sql = "SELECT * FROM equipes WHERE status = 1;";
+    $result = mysqli_query($_SESSION['con'], $sql);
+    if (!$result) return false;
+
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $r[] = $row;
+        }
+    } else return false;
+
+    return $r;
+}
+
+function montaListaEquipes($arrayEquipes)
+{
+    $html = "";
+    if (!$arrayEquipes) return false;
+    foreach ($arrayEquipes as $equipe) {
+        $id = $equipe['id'];
+        $html .= "<option value='{$equipe['id']}'>{$equipe['equipe']}</option>";
+    }
+    return $html;
+};
 
 ?>

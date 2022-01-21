@@ -1,12 +1,14 @@
 <?php
 require "../include/db.php";
+require "../include/funcoesUsuario.php";
 
+$idUsuario = $_POST['inputId'];
 $nomeUsuario = $_POST['inputNome'];
 $emailUsuario = $_POST['inputEmail'];
-$idUsuario = $_POST['inputId'];
+$idEquipe = $_POST['inputEquipe'];
 
 if (!$idUsuario) {
-    $novoCadastro = cadastraUsuario($nomeUsuario, $emailUsuario);
+    $novoCadastro = vinculaEquipe(cadastraUsuario($nomeUsuario, $emailUsuario), $idEquipe);
 
     if (!$novoCadastro) {
         header("Location: ../pages/home.php?msg=falhou");
@@ -16,49 +18,15 @@ if (!$idUsuario) {
         exit;
     }
 } else {
+    $registroEquipe = registroEquipe($idUsuario);
     $alteraCadastro = alteraUsuario($idUsuario, $nomeUsuario, $emailUsuario);
+    $vinculaEquipe = vinculaEquipe($idUsuario, $idEquipe);
 
-    if (!$alteraCadastro) {
+    if (!$alteraCadastro && !$vinculaEquipe && !$registroEquipe) {
         header("Location: ../pages/home.php?msg=falhou");
         exit;
     } else {
         header("Location: ../pages/home.php?msg=sucesso");
         exit;
     }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function cadastraUsuario($nome, $email)
-{
-    if (!$nome || !$email) return false;
-
-    $sql = "INSERT INTO `usuarios` (`name`, `email`) VALUES ('$nome', '$email');";
-    $result = mysqli_query($_SESSION['con'], $sql);
-    if (!$result) return false;
-    return mysqli_insert_id($_SESSION['con']);
-}
-
-function alteraUsuario($id, $nome, $email)
-{
-    if (!$id || !$nome || !$email) return false;
-    $sql = "UPDATE `usuarios` SET `name` = '$nome', `email` = '$email' WHERE `id` = '$id';";
-    $result = mysqli_query($_SESSION['con'], $sql);
-    if (!$result) return false;
-    return true;
 }

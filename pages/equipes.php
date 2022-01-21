@@ -5,7 +5,7 @@ if (!$_SESSION['user_id']) {
     header('location: ../index.php');
 }
 
-$listaUsuarios = buscaUsuarios();
+$listaEquipes = buscaEquipes();
 $msg = $_GET['msg'] ?? '';
 
 ?>
@@ -19,7 +19,7 @@ $msg = $_GET['msg'] ?? '';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;500;700&display=swap" rel="stylesheet">
-    <title>Home</title>
+    <title>Gerenciamento de Equipes</title>
 </head>
 <body>
 <nav class="bg-slate-900 text-white">
@@ -34,7 +34,7 @@ $msg = $_GET['msg'] ?? '';
 </nav>
 
 <header class=>
-    <h1 class="text-center text-3xl font-semibold my-4">Gestão de Dinossauros</h1>
+    <h1 class="text-center text-3xl font-semibold my-4">Equipes de Dinossauros</h1>
 
     <?php if ($msg == "falhou") { ?>
         <h3 class="text-center font-bold text-red-700">Deu ruim!</h3>
@@ -50,20 +50,19 @@ $msg = $_GET['msg'] ?? '';
     <table class="w-3/4 border-collapse table-fixed">
         <tr>
             <th class="border-4">ID</th>
-            <th class="border-4">Nome</th>
-            <th class="border-4">E-mail</th>
+            <th class="border-4">Nome da Equipe</th>
             <th class="border-4">Editar</th>
             <th class="border-4">Excluir</th>
         </tr>
-        <?= tabela($listaUsuarios) ?>
+        <?= tabela($listaEquipes) ?>
     </table>
 </div>
 <div class="flex justify-center">
     <button class="btn bg-gray-400 rounded-full m-2 p-2 justify-center text-bold" type="submit">
-        <a href="formCadastra.php">Cadastrar Novo Usuário</a>
+        <a href="formCadastraEquipes.php">Cadastrar Nova Equipe</a>
     </button>
     <button class="btn bg-gray-400 rounded-full m-2 p-2 justify-center text-bold" type="submit">
-        <a href="equipes.php">Gerenciar Equipes</a>
+        <a href="home.php"">Voltar ao Início</a>
     </button>
 </div>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -71,11 +70,10 @@ $msg = $_GET['msg'] ?? '';
 </html>
 
 <?php
-function buscaUsuarios()
+function buscaEquipes()
 {
-    $sql = "SELECT * FROM usuarios WHERE id <> 1 AND status = 1;";
+    $sql = "SELECT * FROM equipes WHERE status = 1;";
     $result = mysqli_query($_SESSION['con'], $sql);
-
     if (!$result) return false;
 
     if (mysqli_num_rows($result) > 0) {
@@ -87,18 +85,21 @@ function buscaUsuarios()
     return $r;
 }
 
-function tabela($arrayUsuarios)
+function tabela($arrayEquipes)
 {
     $html = "";
-    if (!$arrayUsuarios) return false;
-    foreach($arrayUsuarios as $usuario) {
-        $id = $usuario['id'];
+    if (!$arrayEquipes) return false;
+    foreach($arrayEquipes as $equipe) {
+        $id = $equipe['id'];
         $html .= "<tr>";
-        $html .= "<td class='border-2 text-center'>{$usuario['id']}</td>";
-        $html .= "<td class='border-2'>{$usuario['name']}</td>";
-        $html .= "<td class='border-2'>{$usuario['email']}</td>";
-        $html .= "<td class='border-2 text-center'><a href='formCadastra.php?id={$id}'>Editar</a></td>";
-        $html .= "<td class='border-2 text-center'><a href='../actions/deletarUsuario.php?id={$id}'>Desativar</a></td>";
+        $html .= "<td class='border-2 text-center'>{$equipe['id']}</td>";
+        $html .= "<td class='border-2'>{$equipe['equipe']}</td>";
+        $html .= "<td class='border-2 text-center'>
+                    <a href='formCadastraEquipes.php?id={$id}'>Editar</a>
+                  </td>";
+        $html .= "<td class='border-2 text-center'>
+                    <a href='../actions/deletarEquipe.php?id={$id}'>Desativar</a>
+                  </td>";
         $html .= "</tr>";
     }
     return $html;
