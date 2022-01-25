@@ -1,5 +1,6 @@
 <?php 
 require "../include/db.php";
+require "../include/funcoesEquipe.php";
 
 if (!$_SESSION['user_id']) {
     header('location: ../index.php');
@@ -54,7 +55,7 @@ $msg = $_GET['msg'] ?? '';
             <th class="border-4">Editar</th>
             <th class="border-4">Excluir</th>
         </tr>
-        <?= tabela($listaEquipes) ?>
+        <?= tabelaEquipe($listaEquipes) ?>
     </table>
 </div>
 <div class="flex justify-center">
@@ -68,43 +69,3 @@ $msg = $_GET['msg'] ?? '';
     <script src="https://cdn.tailwindcss.com"></script>
 </body>
 </html>
-
-<?php
-function buscaEquipes()
-{
-    $sql = "SELECT * FROM equipes WHERE status = 1;";
-    $result = mysqli_query($_SESSION['con'], $sql);
-    if (!$result) return false;
-
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $r[] = $row;
-        }
-    } else return false;
-
-    return $r;
-}
-
-function tabela($arrayEquipes)
-{
-    $html = "";
-    if (!$arrayEquipes) return false;
-    foreach($arrayEquipes as $equipe) {
-        $id = $equipe['id'];
-        $html .= "<tr>";
-        $html .= "<td class='border-2 text-center'>{$equipe['id']}</td>";
-        $html .= "<td class='border-2'>{$equipe['equipe']}</td>";
-        $html .= "<td class='border-2 text-center'>
-                    <a href='formCadastraEquipes.php?id={$id}'>Editar</a>
-                  </td>";
-        $html .= "<td class='border-2 text-center'>
-                    <a href='../actions/deletarEquipe.php?id={$id}'>Desativar</a>
-                  </td>";
-        $html .= "</tr>";
-    }
-    return $html;
-}
-
-?>
-
-

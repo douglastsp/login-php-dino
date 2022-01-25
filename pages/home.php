@@ -1,11 +1,15 @@
 <?php 
 require "../include/db.php";
+require "../include/funcoesUsuario.php";
+require "../include/funcoesEquipe.php";
 
 if (!$_SESSION['user_id']) {
     header('location: ../index.php');
 }
 
 $listaUsuarios = buscaUsuarios();
+$listaEquipes = buscaEquipes();
+
 $msg = $_GET['msg'] ?? '';
 
 ?>
@@ -52,6 +56,8 @@ $msg = $_GET['msg'] ?? '';
             <th class="border-4">ID</th>
             <th class="border-4">Nome</th>
             <th class="border-4">E-mail</th>
+            <th class="border-4">Equipe</th>
+            <th class="border-4">Status</th>
             <th class="border-4">Editar</th>
             <th class="border-4">Excluir</th>
         </tr>
@@ -69,41 +75,4 @@ $msg = $_GET['msg'] ?? '';
     <script src="https://cdn.tailwindcss.com"></script>
 </body>
 </html>
-
-<?php
-function buscaUsuarios()
-{
-    $sql = "SELECT * FROM usuarios WHERE id <> 1 AND status = 1;";
-    $result = mysqli_query($_SESSION['con'], $sql);
-
-    if (!$result) return false;
-
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $r[] = $row;
-        }
-    } else return false;
-
-    return $r;
-}
-
-function tabela($arrayUsuarios)
-{
-    $html = "";
-    if (!$arrayUsuarios) return false;
-    foreach($arrayUsuarios as $usuario) {
-        $id = $usuario['id'];
-        $html .= "<tr>";
-        $html .= "<td class='border-2 text-center'>{$usuario['id']}</td>";
-        $html .= "<td class='border-2'>{$usuario['name']}</td>";
-        $html .= "<td class='border-2'>{$usuario['email']}</td>";
-        $html .= "<td class='border-2 text-center'><a href='formCadastra.php?id={$id}'>Editar</a></td>";
-        $html .= "<td class='border-2 text-center'><a href='../actions/deletarUsuario.php?id={$id}'>Desativar</a></td>";
-        $html .= "</tr>";
-    }
-    return $html;
-}
-
-?>
-
 
