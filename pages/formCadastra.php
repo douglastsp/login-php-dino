@@ -7,6 +7,7 @@ if (!$_SESSION['user_id']) {
 
 $idRecebido = $_GET['id'] ?? '';
 $usuarioRecebido = checkUsuario($idRecebido);
+$equipeRecebida = checkEquipe($idRecebido);
 $listaEquipes = buscaEquipes();
 
 ?>
@@ -58,7 +59,7 @@ $listaEquipes = buscaEquipes();
             <select name="inputEquipe" id="inputEquipe" class="border-solid border rounded w-1/5 p-0.5
             text-center">
                 <option>Escolha</option>
-                <?= montaListaEquipes($listaEquipes) ?>
+                <?= montaListaEquipes($listaEquipes, $equipeRecebida) ?>
             </select>
             <br>
             <button class="btn bg-green-400 rounded-full m-2 p-2" type="submit">Confirmar</button>
@@ -87,6 +88,19 @@ function checkUsuario($idRecebido)
     return $userSql;
 }
 
+function checkEquipe($idRecebido)
+{
+    if (!$idRecebido) return false;
+
+    $sql = "SELECT * FROM `equipe_usuario` WHERE id_user = {$idRecebido} AND `status` = 1 LIMIT 1;";
+    $result = mysqli_query($_SESSION['con'], $sql);
+    if (!$result) return false;
+    $userSql = mysqli_fetch_assoc($result);
+    if (!$userSql) return false;
+    return $userSql;
+
+}
+
 function buscaEquipes()
 {
     $sql = "SELECT * FROM equipes WHERE status = 1;";
@@ -102,13 +116,17 @@ function buscaEquipes()
     return $r;
 }
 
-function montaListaEquipes($arrayEquipes)
+function montaListaEquipes($arrayEquipes, $equipeRecebida)
 {
     $html = "";
     if (!$arrayEquipes) return false;
     foreach ($arrayEquipes as $equipe) {
         $id = $equipe['id'];
-        $html .= "<option value='{$equipe['id']}'>{$equipe['equipe']}</option>";
+        if ($equipe['id'] == $equipeRecebida['id_equipe']) {
+            $html .= "<option value='{$equipe['id']}' selected> {$equipe['equipe']}</option>";
+        } else {
+            $html .= "<option value='{$equipe['id']}'>{$equipe['equipe']}</option>";
+        }
     }
     return $html;
 };
