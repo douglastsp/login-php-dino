@@ -24,32 +24,42 @@ $equipeRecebida = checkEquipe($idRecebido);
 </head>
 <body>
 
-    <nav class="bg-slate-900 text-white">
-        <div class="py-2 px-4 flex justify-between">
-            <div>
-                <p>Olá <?= $_SESSION['user_name'] ?></p>
-            </div>
-            <div>
-                <a href="../include/logout.php">Logout</a>
-            </div>
+<nav class="bg-black drop-shadow">
+    <div class="flex justify-between">
+        <div>
+            <h2 class="m-4 text-2xl font-bold leading-7 text-white sm:text-3xl sm:truncate">
+                Olá <?= $_SESSION['user_name'] ?>
+            </h2>
         </div>
-    </nav>
+        <div>
+            <a href="../include/logout.php" class="m-4 inline-flex items-center px-4 py-2 border border-transparent
+            rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Logout
+            </a>
+        </div>
+    </div>
+</nav>
 
     <header>
-        <h1 class="text-center text-3xl font-semibold my-4">Equipes de Dinossauros</h1>
+        <h1 class="text-center m-2 text-2xl font-bold leading-7 text-indigo-600 sm:text-3xl sm:truncate">
+            Equipes de Dinossauros
+        </h1>
     </header>
 
     <div class="text-center mb-4">
         <form action="../actions/cadastrarEquipe.php" method="post">
             <input type="hidden" name="inputId" value="<?= $equipeRecebida['id'] ?? ''?>">
-            <label for="inputNome">Nome da Equipe:</label>
+            <label for="inputNome" class="font-semibold">Nome da Equipe:</label>
             <br>
             <input type="text" id="inputEquipe" name="inputEquipe" placeholder="Nome" class="text-center border rounded
-             p-1 w-2/5" required value="<?= $equipeRecebida['equipe'] ?? '' ?>">
+             p-1 w-2/5 mt-1 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm border-gray-300 rounded-md" required value="<?= $equipeRecebida['equipe'] ?? '' ?>">
             <br>
-            <button class="btn bg-green-400 rounded-full m-2 p-2" type="submit">Confirmar</button>
-            <button class="btn bg-gray-400 rounded-full m-2 p-2 justify-center text-bold" type="submit">
-                <a href="equipes.php"">Voltar</a>
+            <button class="ml-2 mt-6 items-center justify-center px-8 py-3 border border-transparent text-base
+            font-medium rounded-md text-white bg-lime-700 hover:bg-lime-500 md:py-4 md:text-lg md:px-10" type="submit">Confirmar</button>
+            <button>
+                <a href="equipes.php" class="ml-2 mt-6 items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10" type="submit">
+                    Voltar
+                </a>
             </button>
         </form>
     </div>

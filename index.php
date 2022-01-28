@@ -19,25 +19,29 @@ $title = "Login";
         <section class="bg-white p-8 w-96 rounded">
             <div class="text-center">
                 <div>
-                    <h2 class="text-2xl mb-4"><?= $title; ?></h2>
+                    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                        <?= $title; ?>
+                    </h2>
                 </div>
 
                 <div>
-                    <form class="flex flex-col items-center" action="include/validaLogin.php" method="POST">
+                    <form class="flex flex-col items-center mt-6" action="include/validaLogin.php" method="POST">
                         <input
                             name="email"
-                            class="p-3 w-full border rounded-full mb-1 focus:outline-cyan-500 text-center"
+                            class="appearance-none rounded-none relative block w-full px-3 py-2 border
+                            border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none
+                            focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm text-center"
                             type="text" placeholder="E-mail">
                         <input
                             name="pw"
-                            class="p-3 w-full border rounded-full mb-4 focus:outline-cyan-500 text-center"
+                            class="appearance-none rounded-none relative block w-full px-3 py-2 border
+                            border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none
+                            focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm text-center"
                             type="password" placeholder="Senha">
                         <input
                             id="btn_logar"
-                            class="p-2 rounded-full w-1/3 bg-gray-500 duration-1000
-                                transition ease-in-out delay-150 hover:-translate-y-1
-                                hover:scale-110 duration-300 border
-                                hover:bg-gray-900 text-white text-base cursor-pointer"
+                            class="ml-2 mt-6 flex items-center justify-center px-8 py-3 border border-transparent
+                            text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
                             type="submit" value="Logar">
                     </form>
                 </div>

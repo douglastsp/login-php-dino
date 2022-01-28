@@ -27,45 +27,57 @@ $listaEquipes = buscaEquipes();
 </head>
 <body>
 
-    <nav class="bg-slate-900 text-white">
-        <div class="py-2 px-4 flex justify-between">
-            <div>
-                <p>Olá <?= $_SESSION['user_name'] ?></p>
-            </div>
-            <div>
-                <a href="../include/logout.php">Logout</a>
-            </div>
+<nav class="bg-black drop-shadow">
+    <div class="flex justify-between">
+        <div>
+            <h2 class="m-4 text-2xl font-bold leading-7 text-white sm:text-3xl sm:truncate">
+                Olá <?= $_SESSION['user_name'] ?>
+            </h2>
         </div>
-    </nav>
+        <div>
+            <a href="../include/logout.php" class="m-4 inline-flex items-center px-4 py-2 border border-transparent
+            rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Logout
+            </a>
+        </div>
+    </div>
+</nav>
 
     <header>
-        <h1 class="text-center text-3xl font-semibold my-4">Gestão de Dinossauros</h1>
+        <h1 class="text-center m-2 text-2xl font-bold leading-7 text-indigo-600 sm:text-3xl sm:truncate">
+            Gestão de Dinossauros
+        </h1>
     </header>
 
     <div class="text-center mb-4">
         <form action="../actions/cadastrarUsuario.php" method="post">
             <input type="hidden" name="inputId" value="<?= $usuarioRecebido['id'] ?? ''?>">
-            <label for="inputNome">Nome do Usuário:</label>
+            <label for="inputNome" class="font-semibold">Nome do Usuário:</label>
             <br>
             <input type="text" id="inputNome" name="inputNome" placeholder="Nome" class="text-center border rounded
-             p-1 w-2/5" required value="<?= $usuarioRecebido['name'] ?? '' ?>">
+             p-1 w-2/5 mt-1 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm border-gray-300 rounded-md" required value="<?= $usuarioRecebido['name'] ?? '' ?>">
             <br>
-            <label for="inputEmail">E-mail do Usuário:</label>
+            <label for="inputEmail" class="font-semibold">E-mail do Usuário:</label>
             <br>
-            <input type="email" id="inputEmail" name="inputEmail" placeholder="Email" class="text-center border
-            rounded p-1 w-2/5" required value="<?= $usuarioRecebido['email'] ?? '' ?>">
+            <input type="email" id="inputEmail" name="inputEmail" placeholder="Email" class="text-center border rounded
+             p-1 w-2/5 mt-1 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm border-gray-300 rounded-md" required value="<?= $usuarioRecebido['email'] ?? '' ?>">
             <br>
-            <label for="inputEquipe">Equipe do Usuário:</label>
+            <label for="inputEquipe" class="font-semibold">Equipe do Usuário:</label>
             <br>
             <select name="inputEquipe" id="inputEquipe" class="border-solid border rounded w-1/5 p-0.5
-            text-center" required>
+            text-center bg-white border border-gray-300 rounded-md shadow-sm py-1 cursor-default focus:outline-none
+            focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
                 <option value="">Escolha</option>
                 <?= montaListaEquipes($listaEquipes, $equipeRecebida) ?>
             </select>
             <br>
-            <button class="btn bg-green-400 rounded-full m-2 p-2" type="submit">Confirmar</button>
-            <button class="btn bg-gray-400 rounded-full m-2 p-2 justify-center text-bold" type="submit">
-                <a href="home.php"">Voltar</a>
+            <button class="ml-2 mt-6 items-center justify-center px-8 py-3 border border-transparent text-base
+            font-medium rounded-md text-white bg-lime-700 hover:bg-lime-500 md:py-4 md:text-lg md:px-10" type="submit">Confirmar</button>
+            <button>
+                <a href="home.php" class="ml-2 mt-6 items-center justify-center px-8 py-3 border border-transparent
+                text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10" type="submit">
+                    Voltar
+                </a>
             </button>
         </form>
     </div>

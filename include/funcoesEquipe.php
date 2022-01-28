@@ -22,13 +22,21 @@ function tabelaEquipe($arrayEquipes)
     foreach($arrayEquipes as $equipe) {
         $id = $equipe['id'];
         $html .= "<tr>";
-        $html .= "<td class='border-2 text-center'>{$equipe['id']}</td>";
-        $html .= "<td class='border-2'>{$equipe['equipe']}</td>";
-        $html .= "<td class='border-2 text-center'>
-                    <a href='formCadastraEquipes.php?id={$id}'>Editar</a>
+        $html .= "<td class='px-6 py-4 whitespace-nowrap'>{$equipe['id']}</td>";
+        $html .= "<td class='px-6 py-4 whitespace-nowrap'>{$equipe['equipe']}</td>";
+        $html .= "<td class='px-6 py-4 whitespace-nowrap'>
+                    <a href='formCadastraEquipes.php?id={$id}'>
+                        <span class='px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-green-800 hover:bg-blue-300'>
+                            Editar
+                        </span>
+                    </a>
                   </td>";
-        $html .= "<td class='border-2 text-center'>
-                    <a href='../actions/deletarEquipe.php?id={$id}'>Desativar</a>
+        $html .= "<td class='px-6 py-4 whitespace-nowrap'>
+                    <a href='../actions/deletarEquipe.php?id={$id}'>
+                        <span class='px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-green-800 hover:bg-red-300'>
+                            Desativar
+                        </span>
+                    </a>
                   </td>";
         $html .= "</tr>";
     }

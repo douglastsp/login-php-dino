@@ -2,7 +2,15 @@
 
 function buscaUsuarios()
 {
-    $sql = "SELECT * FROM usuarios WHERE id <> 1 AND status = 1;";
+    $sql = "SELECT usuarios.*, equipes.equipe
+            FROM usuarios 
+            LEFT JOIN equipe_usuario
+            ON usuarios.id = equipe_usuario.id_user
+            LEFT JOIN equipes
+            ON equipe_usuario.id_equipe = equipes.id
+            WHERE usuarios.id <> 1 AND usuarios.status = 1
+            AND equipe_usuario.status = 1
+            AND equipes.status = 1;";
     $result = mysqli_query($_SESSION['con'], $sql);
 
     if (!$result) return false;
@@ -16,49 +24,23 @@ function buscaUsuarios()
     return $r;
 }
 
-function buscaEquipeDeUsuario($idUsuario)
-{
-    $sql = "SELECT `id_equipe` FROM `equipe_usuario` WHERE `id_user` = '$idUsuario' AND `status` = '1';";
-    $result = mysqli_query($_SESSION['con'], $sql);
-    if (!$result) return false;
-    $rEquipe = mysqli_fetch_assoc($result);
-    return $rEquipe;
-}
+//function buscaEquipeDeUsuario($idUsuario)
+//{
+//    $sql = "SELECT `id_equipe` FROM `equipe_usuario` WHERE `id_user` = '$idUsuario' AND `status` = '1';";
+//    $result = mysqli_query($_SESSION['con'], $sql);
+//    if (!$result) return false;
+//    $rEquipe = mysqli_fetch_assoc($result);
+//    return $rEquipe['id_equipe'];
+//}
 
-function buscaNomeEquipe($idEquipeRecebido)
-{
-    $sql = "SELECT `equipe` FROM `equipes` WHERE `id` = {$idEquipeRecebido} LIMIT 1;";
-    $result = mysqli_query($_SESSION['con'], $sql);
-    if (!$result) return false;
-    $rNomeEquipe = mysqli_fetch_assoc($result);
-    return $rNomeEquipe;
-}
-
-function tabela($arrayUsuarios)
-{
-    $html = "";
-    if (!$arrayUsuarios) return false;
-    foreach($arrayUsuarios as $usuario) {
-        $id = $usuario['id'];
-        $idEquipeArray = buscaEquipeDeUsuario($id);
-        $idEquipe = $idEquipeArray['id_equipe'];
-        $nomeEquipe = buscaNomeEquipe($idEquipe);
-        $html .= "<tr>";
-        $html .= "<td class='border-2 text-center'>{$usuario['id']}</td>";
-        $html .= "<td class='border-2'>{$usuario['name']}</td>";
-        $html .= "<td class='border-2'>{$usuario['email']}</td>";
-        $html .= "<td class='border-2 text-center'>{$nomeEquipe['equipe']}</td>";
-        if ($usuario['status'] == 1) {
-            $html .= "<td class='border-2 text-center'>Ativo</td>";
-        } elseif ($usuario['status'] == 0) {
-            $html .= "<td class='border-2 text-center'>Desativado</td>";
-        }
-        $html .= "<td class='border-2 text-center'><a href='formCadastra.php?id={$id}'>Editar</a></td>";
-        $html .= "<td class='border-2 text-center'><a href='../actions/deletarUsuario.php?id={$id}'>Desativar</a></td>";
-        $html .= "</tr>";
-    }
-    return $html;
-}
+//function buscaNomeEquipe($idEquipeRecebido)
+//{
+//    $sql = "SELECT `equipe` FROM `equipes` WHERE `id` = {$idEquipeRecebido} LIMIT 1;";
+//    $result = mysqli_query($_SESSION['con'], $sql);
+//    if (!$result) return false;
+//    $rNomeEquipe = mysqli_fetch_assoc($result);
+//    return $rNomeEquipe['equipe'];
+//}
 
 //function tabela($arrayUsuarios)
 //{
@@ -66,11 +48,13 @@ function tabela($arrayUsuarios)
 //    if (!$arrayUsuarios) return false;
 //    foreach($arrayUsuarios as $usuario) {
 //        $id = $usuario['id'];
+////        $idEquipeArray = buscaEquipeDeUsuario($id);
+//        $nomeEquipe = buscaNomeEquipe(buscaEquipeDeUsuario($id));
 //        $html .= "<tr>";
 //        $html .= "<td class='border-2 text-center'>{$usuario['id']}</td>";
 //        $html .= "<td class='border-2'>{$usuario['name']}</td>";
 //        $html .= "<td class='border-2'>{$usuario['email']}</td>";
-//        $html .= "<td class='border-2 text-center'>Soon</td>";
+//        $html .= "<td class='border-2 text-center'>{$nomeEquipe}</td>";
 //        if ($usuario['status'] == 1) {
 //            $html .= "<td class='border-2 text-center'>Ativo</td>";
 //        } elseif ($usuario['status'] == 0) {
@@ -82,6 +66,49 @@ function tabela($arrayUsuarios)
 //    }
 //    return $html;
 //}
+
+function tabela($arrayUsuarios)
+{
+    $html = "";
+    if (!$arrayUsuarios) return false;
+    foreach($arrayUsuarios as $usuario) {
+        $id = $usuario['id'];
+        $html .= "<tr>";
+        $html .= "<td class='px-6 py-4 whitespace-nowrap'>{$usuario['id']}</td>";
+        $html .= "<td class='px-6 py-4 whitespace-nowrap'>{$usuario['name']}</td>";
+        $html .= "<td class='px-6 py-4 whitespace-nowrap'>{$usuario['email']}</td>";
+        $html .= "<td class='px-6 py-4 whitespace-nowrap'>{$usuario['equipe']}</td>";
+        if ($usuario['status'] == 1) {
+            $html .= "<td class='px-6 py-4 whitespace-nowrap'>
+                        <span class='px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800'>
+                            Ativo
+                        </span>
+                      </td>";
+        } elseif ($usuario['status'] == 0) {
+            $html .= "<td class='px-6 py-4 whitespace-nowrap'>
+                        <span class='px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-green-800'>
+                            Desativado
+                        </span>
+                      </td>";
+        }
+        $html .= "<td class='px-6 py-4 whitespace-nowrap'>
+                      <a href='formCadastra.php?id={$id}'>
+                          <span class='px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-green-800 hover:bg-blue-300'>
+                            Editar
+                          </span>
+                      </a>
+                  </td>";
+        $html .= "<td class='px-6 py-4 whitespace-nowrap'>
+                      <a href='../actions/deletarUsuario.php?id={$id}'>
+                          <span class='px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-green-800 hover:bg-red-300'>
+                            Desativar
+                          </span>
+                      </a>
+                  </td>";
+        $html .= "</tr>";
+    }
+    return $html;
+}
 
 function cadastraUsuario($nome, $email)
 {

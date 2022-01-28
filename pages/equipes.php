@@ -23,19 +23,26 @@ $msg = $_GET['msg'] ?? '';
     <title>Gerenciamento de Equipes</title>
 </head>
 <body>
-<nav class="bg-slate-900 text-white">
-    <div class="py-2 px-4 flex justify-between">
+<nav class="bg-black drop-shadow">
+    <div class="flex justify-between">
         <div>
-            <p>Olá <?= $_SESSION['user_name'] ?></p>
+            <h2 class="m-4 text-2xl font-bold leading-7 text-white sm:text-3xl sm:truncate">
+                Olá <?= $_SESSION['user_name'] ?>
+            </h2>
         </div>
         <div>
-            <a href="../include/logout.php">Logout</a>
+            <a href="../include/logout.php" class="m-4 inline-flex items-center px-4 py-2 border border-transparent
+            rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Logout
+            </a>
         </div>
     </div>
 </nav>
 
-<header class=>
-    <h1 class="text-center text-3xl font-semibold my-4">Equipes de Dinossauros</h1>
+<header>
+    <h1 class="text-center m-2 text-2xl font-bold leading-7 text-indigo-600 sm:text-3xl sm:truncate">
+        Equipes de Dinossauros
+    </h1>
 
     <?php if ($msg == "falhou") { ?>
         <h3 class="text-center font-bold text-red-700">Deu ruim!</h3>
@@ -47,23 +54,46 @@ $msg = $_GET['msg'] ?? '';
 
 </header>
 
-<div class="flex flex-col md:flex-row justify-center">
-    <table class="w-3/4 border-collapse table-fixed">
-        <tr>
-            <th class="border-4">ID</th>
-            <th class="border-4">Nome da Equipe</th>
-            <th class="border-4">Editar</th>
-            <th class="border-4">Excluir</th>
-        </tr>
-        <?= tabelaEquipe($listaEquipes) ?>
-    </table>
+<div class="flex flex-col">
+    <div class="flex justify-center -my-2 overflow-x-auto">
+        <div class="m-4 py-2 align-middle inline-block w-11/12 sm:px-6 lg:px-8">
+            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                <table class="min-w-full divide-y divide-gray-200"">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            ID
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Nome da Equipe
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Editar
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Excluir
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <?= tabelaEquipe($listaEquipes) ?>
+                </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="flex justify-center">
-    <button class="btn bg-gray-400 rounded-full m-2 p-2 justify-center text-bold" type="submit">
-        <a href="formCadastraEquipes.php">Cadastrar Nova Equipe</a>
+    <button type="submit" class="mt-6">
+        <a href="formCadastraEquipes.php" class="mt-6 items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
+            Cadastrar Nova Equipe
+        </a>
     </button>
-    <button class="btn bg-gray-400 rounded-full m-2 p-2 justify-center text-bold" type="submit">
-        <a href="home.php"">Voltar ao Início</a>
+    <button type="submit" class="mt-6">
+        <a href="home.php" class="ml-2 mt-6 items-center justify-center px-8 py-3 border border-transparent text-base
+         font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
+            Voltar ao Início
+        </a>
     </button>
 </div>
     <script src="https://cdn.tailwindcss.com"></script>
