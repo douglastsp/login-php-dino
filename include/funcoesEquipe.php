@@ -61,3 +61,15 @@ function alteraEquipe($id, $nome)
     if (!$result) return false;
     return true;
 }
+
+function checkEquipe($idRecebido)
+{
+    if (!$idRecebido) return false;
+
+    $sql = "SELECT * FROM `equipes` WHERE id = {$idRecebido} LIMIT 1;";
+    $result = mysqli_query($_SESSION['con'], $sql);
+    if (!$result) return false;
+    $userSql = mysqli_fetch_assoc($result);
+    if (!$userSql) return false;
+    return $userSql;
+}

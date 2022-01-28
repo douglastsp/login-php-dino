@@ -1,5 +1,6 @@
 <?php
 require "../include/db.php";
+require "../include/funcoesEquipe.php";
 
 if (!$_SESSION['user_id']) {
     header('location: ../index.php');
@@ -68,19 +69,3 @@ $equipeRecebida = checkEquipe($idRecebido);
 
 </body>
 </html>
-
-<?php
-
-function checkEquipe($idRecebido)
-{
-    if (!$idRecebido) return false;
-
-    $sql = "SELECT * FROM `equipes` WHERE id = {$idRecebido} LIMIT 1;";
-    $result = mysqli_query($_SESSION['con'], $sql);
-    if (!$result) return false;
-    $userSql = mysqli_fetch_assoc($result);
-    if (!$userSql) return false;
-    return $userSql;
-}
-
-?>
