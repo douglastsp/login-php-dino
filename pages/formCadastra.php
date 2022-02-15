@@ -82,7 +82,9 @@ $listaEquipes = buscaEquipes();
         </form>
     </div>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+<?php
+include "../include/lib_js.php";
+?>
 
 </body>
 </html>

@@ -119,7 +119,9 @@ $msg = $_GET['msg'] ?? '';
         </a>
     </button>
 </div>
-    <script src="https://cdn.tailwindcss.com"></script>
+<?php
+include "../include/lib_js.php";
+?>
 </body>
 </html>
 
